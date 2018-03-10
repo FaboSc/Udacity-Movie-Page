@@ -1,4 +1,4 @@
-import media.py
+import media
 import fresh_tomatoes
 
 # Create Movies and add them to a List
