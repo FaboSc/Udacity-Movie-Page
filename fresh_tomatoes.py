@@ -17,7 +17,7 @@ main_page_head = '''
         body {
             padding-top: 80px;
         }
-        #trailer .modal-dialog {
+        # trailer .modal-dialog {
             margin-top: 200px;
             width: 640px;
             height: 480px;
@@ -28,7 +28,7 @@ main_page_head = '''
             right: -12px;
             z-index: 9001;
         }
-        #trailer-video {
+        # trailer-video {
             width: 100%;
             height: 100%;
         }
@@ -99,7 +99,7 @@ main_page_content = '''
         </div>
       </div>
     </div>
-    
+
     <!-- Main Page Content -->
     <div class="container">
       <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -125,14 +125,35 @@ movie_tile_content = '''
 </div>
 '''
 
+
 def create_movie_tiles_content(movies):
+    '''Creates the html code for every movie in movies
+
+        Iterates over every object Movie in movies
+        For each object:
+            Extract youtube ID from movie.trailer_youtube_url
+            Create html code and set attributes movie_titel, post_image_url and trailer_youtube_id
+
+        Parameters
+        ----------
+        movies - Array<media.Movie>:
+            Array of movies
+
+        Returns
+        -------
+        content - String:
+            Html code for every movie_tile
+     '''
     # The HTML content for this section of the page
     content = ''
     for movie in movies:
         # Extract the youtube ID from the url
-        youtube_id_match = re.search(r'(?<=v=)[^&#]+', movie.trailer_youtube_url)
-        youtube_id_match = youtube_id_match or re.search(r'(?<=be/)[^&#]+', movie.trailer_youtube_url)
-        trailer_youtube_id = youtube_id_match.group(0) if youtube_id_match else None
+        youtube_id_match = re.search(
+            r'(?<=v=)[^&#]+', movie.trailer_youtube_url)
+        youtube_id_match = youtube_id_match or re.search(
+            r'(?<=be/)[^&#]+', movie.trailer_youtube_url)
+        trailer_youtube_id = youtube_id_match.group(
+            0) if youtube_id_match else None
 
         # Append the tile for the movie with its content filled in
         content += movie_tile_content.format(
@@ -142,7 +163,19 @@ def create_movie_tiles_content(movies):
         )
     return content
 
+
 def open_movies_page(movies):
+    ''' Creates a local file with the name fresh_tomatoes.html and writes the
+        html code from "main_page_head" and "rendered_content" into it.
+
+        After finishing writing all the contents to the file. It is opened in a
+        webbrowser
+
+        Parameters
+        ----------
+        movies - Array<media.Movie>:
+            List of movies
+     '''
   # Create or overwrite the output file
   output_file = open('fresh_tomatoes.html', 'w')
 
